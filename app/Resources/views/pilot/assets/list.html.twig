@@ -1,0 +1,51 @@
+{%- for location_id, content in tree -%}
+
+{%- if grouped[location_id] is defined -%}
+
+    <li>
+
+    {%- if assets[location_id] is defined -%}
+
+        {{ names[assets[location_id].type_id].name }}
+
+    {%- elseif locations[location_id] is defined -%}
+
+        <strong>{{ locations[location_id].name }}</strong> [<em>{{ names[locations[location_id].type_id].name }}</em>]
+
+    {%- endif -%}
+
+    {%- if content|length -%}
+
+        <ul>
+
+            {%- include 'pilot/assets/list.html.twig' with { 'tree': content } -%}
+
+            {%- for asset in grouped[location_id] -%}
+
+                {%- if grouped[asset.item_id] is not defined -%}
+
+                    <li class="">
+
+                        {{- names[asset.type_id].name -}}
+
+                        {%- if asset.quantity is defined -%}
+
+                            &nbsp; <span class="badge badge-default">{{ asset.quantity }}</span>
+
+                        {%- endif -%}
+
+                    </li>
+
+                {%- endif -%}
+
+            {%- endfor -%}
+
+        </ul>
+
+    {%- endif -%}
+
+    </li>
+
+{%- endif -%}
+
+{%- endfor -%}

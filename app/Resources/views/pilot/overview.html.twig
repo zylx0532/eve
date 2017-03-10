@@ -1,0 +1,42 @@
+{% extends 'layout.html.twig' %}
+
+{% block main %}
+
+<div class="alert alert-warning">
+    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+    This is a beta. If it breaks, it is because I am a total scrub.
+</div>
+
+<img class="rounded float-right img-thumbnail ml-3" src="{{ character_portrait.px128x128 }}" alt="Character portrait">
+
+<strong>Capsuleer</strong>
+
+<p>
+    {{ character_details.name }}
+
+    ({% if character_details.gender == 'male' %}
+    <i class="fa fa-mars" aria-hidden="true"></i>
+{%  else %}
+    <i class="fa fa-venus" aria-hidden="true"></i>
+    {%  endif %})
+</p>
+
+<strong>Born</strong>
+
+<p>{{ character_details.birthday|date('l jS \\of F Y h:i:s A') }}</p>
+
+<strong>Race</strong>
+
+<p><em>{{ race.name }}</em> - {{ race.description }}</p>
+
+<strong>Bloodline</strong>
+
+<p><em>{{ bloodline.name }}</em> - {{ bloodline.description }}</p>
+
+<strong>Skillpoints</strong>
+<p>{{ sp|number_format }}</p>
+
+<strong>Wallet</strong>
+<p>{{ isk|number_format }} ISK</p>
+
+{% endblock %}

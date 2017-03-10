@@ -1,0 +1,78 @@
+services:
+
+  # security
+
+  app.user.provider:
+    class: 'App\Security\UserProvider'
+
+  app.security.oauth2_provider:
+    class: 'Alcohol\OAuth2\Client\Provider\EveOnline'
+    arguments:
+    - clientId: '%env(EVE_CLIENT_ID)%'
+      clientSecret: '%env(EVE_SECRET_KEY)%'
+      redirectUri: '%env(EVE_CALLBACK_URL)%'
+
+  app.security.oauth2_client:
+    class: 'App\Security\OAuth2Client'
+    arguments: ['@app.security.oauth2_provider']
+
+  app.security.oauth2_guard:
+    class: 'App\Security\OAuth2Guard'
+    arguments: ['@router', '@app.security.oauth2_client']
+
+  app.security.oauth2_subscriber:
+    class: 'App\Security\OAuth2Subscriber'
+    arguments: ['@security.token_storage', '@app.security.oauth2_client', '@logger']
+    tags:
+      - { name: 'kernel.event_subscriber' }
+
+  app.security.logout_handler:
+    class: 'App\Security\LogoutSuccessHandler'
+    arguments: ['@templating']
+
+  # esi
+
+  app.esi.api_client:
+    class: 'App\Esi\ApiClient'
+    arguments: ['@httplug.message_factory']
+
+  # cache
+
+  app.cache.warmup.skills:
+    class: 'App\Cache\Warmup\Skills'
+    arguments: ['@app.esi.api_client', '@httplug.client.async', [16]]
+    tags:
+      - { name: 'kernel.cache_warmer', priority: 0 }
+
+  # controllers
+
+  app.controller.index:
+    class: 'App\Controller\IndexController'
+    arguments: ['@templating', '@app.esi.api_client', '@httplug.client']
+
+  app.controller.assets:
+    class: 'App\Controller\AssetsController'
+    arguments: ['@templating', '@app.esi.api_client', '@httplug.client']
+
+  app.controller.skills.trained:
+    class: 'App\Controller\Skills\TrainedController'
+    arguments: ['@templating', '@app.esi.api_client', '@httplug.client']
+
+  app.controller.skills.untrained:
+    class: 'App\Controller\Skills\UntrainedController'
+    arguments: ['@templating', '@app.esi.api_client', '@httplug.client']
+
+  app.controller.skills.queued:
+    class: 'App\Controller\Skills\QueuedController'
+    arguments: ['@templating', '@app.esi.api_client', '@httplug.client']
+
+  app.controller.security.login:
+    class: 'App\Controller\Security\LoginController'
+    arguments: ['@templating', '@app.security.oauth2_provider', '%eve_scopes%']
+
+  app.controller.security.check:
+    class: 'App\Controller\Security\CheckController'
+
+  app.controller.debug:
+    class: 'App\Controller\DebugController'
+    arguments: ['@templating', '@security.token_storage', '@app.security.oauth2_provider']

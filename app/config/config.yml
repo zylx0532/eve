@@ -1,0 +1,82 @@
+imports:
+  - { resource: 'security.yml' }
+  - { resource: 'services.yml' }
+
+parameters:
+  locale: 'en'
+  eve_scopes:
+    - 'esi-wallet.read_character_wallet.v1'
+    - 'esi-assets.read_assets.v1'
+    - 'esi-skills.read_skills.v1'
+    - 'esi-skills.read_skillqueue.v1'
+    - 'esi-clones.read_clones.v1'
+    - 'esi-location.read_location.v1'
+    - 'esi-location.read_ship_type.v1'
+    - 'esi-universe.read_structures.v1'
+
+framework:
+  secret: '%env(SYMFONY_SECRET)%'
+  router:
+    resource: '%kernel.root_dir%/config/routing.yml'
+    strict_requirements: '%kernel.debug%'
+  validation: { enable_annotations: true }
+  templating:
+    engines: ['twig']
+  default_locale: '%locale%'
+  session:
+    handler_id: 'session.handler.native_file'
+    save_path: '%kernel.root_dir%/../var/sessions/%kernel.environment%'
+    cookie_path: '/'
+    cookie_secure: true
+    cookie_httponly: true
+  http_method_override: true
+  php_errors:
+    log: true
+    throw: '%kernel.debug%'
+  annotations:
+    cache: 'file'
+    file_cache_dir: '%kernel.cache_dir%/annotations'
+    debug: '%kernel.debug%'
+
+twig:
+  debug: '%kernel.debug%'
+  strict_variables: '%kernel.debug%'
+
+httplug:
+  plugins:
+    cache:
+      config:
+        default_ttl: 300
+      cache_pool: 'cache.app'
+  clients:
+    default:
+      factory: 'httplug.factory.curl'
+      plugins:
+        - 'httplug.plugin.logger'
+        - add_host:
+            host: '%env(EVE_ESI_URI)%'
+            replace: true
+        - header_set:
+            headers:
+              'X-User-Agent': 'Eve-Capsuleer-Dashboard (sync)'
+        - 'httplug.plugin.error'
+        - 'httplug.plugin.cache'
+    async:
+      factory: 'httplug.factory.curl'
+      plugins:
+        - 'httplug.plugin.logger'
+        - add_host:
+            host: '%env(EVE_ESI_URI)%'
+            replace: true
+        - header_set:
+            headers:
+              'X-User-Agent': 'Eve-Capsuleer-Dashboard (async)'
+        - 'httplug.plugin.cache'
+
+sensio_framework_extra:
+  router: { annotations: true }
+  request: { converters: true, auto_convert: true }
+  view: { annotations: false }
+  cache: { annotations: false }
+  security: { annotations: false }
+  psr_message: { enabled: false }

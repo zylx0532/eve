@@ -1,0 +1,56 @@
+{
+  "autoload": {
+    "psr-4": { "App\\": "src/" },
+    "classmap": [ "app/AppKernel.php", "app/AppCache.php" ],
+    "files": [ "src/Fn.php" ]
+  },
+  "autoload-dev": {
+    "psr-4": { "Tests\\": "tests/" }
+  },
+  "require": {
+    "php": "^7.1",
+    "alcohol/oauth2-eveonline": "dev-master||^1.0",
+    "php-http/cache-plugin": "^1.2",
+    "php-http/client-common": "^1.4",
+    "php-http/curl-client": "^1.7",
+    "php-http/httplug-bundle": "^1.4",
+    "php-http/message": "^1.5",
+    "sensio/distribution-bundle": "^5.0",
+    "sensio/framework-extra-bundle": "^3.0.2",
+    "symfony/monolog-bundle": "^3.0.2",
+    "symfony/polyfill-apcu": "^1.0",
+    "symfony/symfony": "3.3.x-dev",
+    "twig/twig": "^1.0||^2.0",
+    "vlucas/phpdotenv": "^2.4"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "dev-master || ^2.1",
+    "symfony/phpunit-bridge": "^3.0"
+  },
+  "scripts": {
+    "symfony-scripts": [
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets"
+    ],
+    "post-install-cmd": [
+      "@symfony-scripts"
+    ],
+    "post-update-cmd": [
+      "@symfony-scripts"
+    ]
+  },
+  "config": {
+    "platform": {
+      "php": "7.1.0"
+    },
+    "sort-packages": true
+  },
+  "extra": {
+    "symfony-app-dir": "app",
+    "symfony-bin-dir": "bin",
+    "symfony-var-dir": "var",
+    "symfony-web-dir": "web",
+    "symfony-tests-dir": "tests",
+    "symfony-assets-install": "relative"
+  }
+}

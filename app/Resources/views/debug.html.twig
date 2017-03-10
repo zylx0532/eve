@@ -1,0 +1,24 @@
+{% extends 'page.html.twig' %}
+
+{% block body %}
+
+    <div class="container-fluid">
+
+        <dl>
+            <dt>Username</dt>
+            <dd>{{ debug.user.username }}</dd>
+            <dt>OAuth2 Expires</dt>
+            <dd>Valid until {{ debug.user.expireson|date(constant('DATE_RFC3339'), "Europe/Amsterdam") }}</dd>
+            <dt>OAuth2 Scopes</dt>
+            <dd>{{ debug.user.scopes|join(", ") }}</dd>
+            <dt>User</dt>
+            <dd>{{ dump(debug.user) }}</dd>
+            <dt>OAuth2 Token</dt>
+            <dd>{{ dump(debug.oauth2token) }}</dd>
+            <dt>Symfony Token</dt>
+            <dd>{{ dump(debug.token) }}</dd>
+        </dl>
+
+    </div>
+
+{% endblock %}

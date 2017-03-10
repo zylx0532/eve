@@ -1,0 +1,46 @@
+{% extends 'layout.html.twig' %}
+
+{% block main %}
+
+<div class="alert alert-info">
+    You have the following assets scattered around the EVE Universe.
+</div>
+
+<div class="input-group">
+    <span class="input-group-addon">Filter</span>
+    <input type="text" class="form-control" id="filter" aria-describedby="Filter">
+</div>
+
+<ul class="tree">
+
+    {%- include 'pilot/assets/list.html.twig' with { 'tree': tree } -%}
+
+</ul>
+
+{% endblock %}
+
+{% block script %}
+
+    <script>
+        $(document).ready(function () {
+
+            (function ($) {
+
+                $('#filter').keyup(function () {
+
+                    var rex = new RegExp($(this).val(), 'i');
+                    var rows = $('.tree li');
+
+                    rows.hide();
+                    rows.filter(function () {
+                        return rex.test($(this).text());
+                    }).show();
+
+                })
+
+            }(jQuery));
+
+        });
+    </script>
+
+{% endblock %}
