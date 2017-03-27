@@ -1,0 +1,30 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+
+/*
+ * (c) Rob Bast <rob.bast@gmail.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
+use App\AppKernel;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Debug\Debug;
+
+set_time_limit(0);
+
+/** @var \Composer\Autoload\ClassLoader $loader */
+$loader = require_once __DIR__ . '/../app/autoload.php';
+$input = new ArgvInput();
+$environment = $input->getParameterOption(['--env', '-e'], getenv('SYMFONY_ENV') ?: 'dev');
+$debug = getenv('SYMFONY_DEBUG') !== '0' && !$input->hasParameterOption(['--no-debug', '']) && $environment !== 'prod';
+
+if ($debug) {
+    Debug::enable();
+}
+
+$kernel = new AppKernel($environment, $debug);
+$application = new Application($kernel);
+$application->run($input);

@@ -1,0 +1,44 @@
+services:
+
+  # security
+
+  app.user.provider:
+    class: 'App\Security\UserProvider'
+
+  app.security.oauth2_provider:
+    class: 'Alcohol\OAuth2\Client\Provider\EveOnline'
+    arguments:
+    - clientId: '%env(EVE_CLIENT_ID)%'
+      clientSecret: '%env(EVE_SECRET_KEY)%'
+      redirectUri: '%env(EVE_CALLBACK_URL)%'
+
+  app.security.oauth2_client:
+    class: 'App\Security\OAuth2Client'
+    arguments: ['@app.security.oauth2_provider']
+
+  app.security.oauth2_guard:
+    class: 'App\Security\OAuth2Guard'
+    arguments: ['@router', '@app.security.oauth2_client']
+
+  app.security.oauth2_subscriber:
+    class: 'App\Security\AccessTokenRefresher'
+    arguments: ['@security.token_storage', '@app.security.oauth2_client', '@logger']
+    tags:
+      - { name: 'kernel.event_subscriber' }
+
+  # controllers
+
+  app.controller.index:
+    class: 'App\Controller\IndexController'
+    arguments: ['@templating', '@security.token_storage', '@app.security.oauth2_provider']
+
+  app.controller.test:
+    class: 'App\Controller\TestController'
+    arguments: ['@templating']
+
+  app.controller.security.login:
+    class: 'App\Controller\Security\LoginController'
+    arguments: ['@templating', '@app.security.oauth2_provider', '%eve_scopes%']
+
+  app.controller.security.check:
+    class: 'App\Controller\Security\CheckController'
