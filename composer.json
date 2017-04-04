@@ -15,6 +15,7 @@
     "php-http/curl-client": "^1.7",
     "php-http/httplug-bundle": "^1.4",
     "php-http/message": "^1.5",
+    "predis/predis": "^1.1",
     "sensio/distribution-bundle": "^5.0",
     "sensio/framework-extra-bundle": "^3.0.2",
     "symfony/monolog-bundle": "^3.0.2",

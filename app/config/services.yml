@@ -1,5 +1,17 @@
 services:
 
+  # magic
+
+  _defaults:
+    public: false
+    autowire: false
+
+  _instanceof:
+    Symfony\Component\EventDispatcher\EventSubscriberInterface:
+      tags: ['kernel.event_subscriber']
+    Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface:
+      tags: ['kernel.cache_warmer']
+
   # security
 
   app.user.provider:
@@ -20,15 +32,11 @@ services:
     class: 'App\Security\OAuth2Guard'
     arguments: ['@router', '@app.security.oauth2_client']
 
-  app.security.oauth2_subscriber:
-    class: 'App\Security\OAuth2Subscriber'
-    arguments: ['@security.token_storage', '@app.security.oauth2_client', '@logger']
-    tags:
-      - { name: 'kernel.event_subscriber' }
-
   app.security.logout_handler:
     class: 'App\Security\LogoutSuccessHandler'
     arguments: ['@templating']
+
+  App\Security\OAuth2Subscriber: ['@security.token_storage', '@app.security.oauth2_client', '@logger']
 
   # esi
 
@@ -38,11 +46,16 @@ services:
 
   # cache
 
-  app.cache.warmup.skills:
-    class: 'App\Cache\Warmup\Skills'
-    arguments: ['@app.esi.api_client', '@httplug.client.async', [16]]
-    tags:
-      - { name: 'kernel.cache_warmer', priority: 0 }
+  App\Cache\Warmup\Skills: ['@app.esi.api_client', '@httplug.client.async']
+
+  # predis + session
+
+  predis.client:
+    class: 'Predis\Client'
+
+  session.handler.predis:
+    class: 'App\Session\Storage\Handler\PredisSessionHandler'
+    arguments: ['@predis.client']
 
   # controllers
 
