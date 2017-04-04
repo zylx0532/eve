@@ -9,7 +9,7 @@
 
 namespace App\Esi;
 
-interface Endpoint
+interface EndpointInterface
 {
     /**
      * Either GET, PUT or POST.

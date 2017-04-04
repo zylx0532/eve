@@ -9,10 +9,10 @@
 
 namespace App\Esi\Endpoint\Universe;
 
-use App\Esi\Endpoint;
+use App\Esi\EndpointInterface;
 use App\Esi\Endpoint\AbstractEndpoint;
 
-class Bloodlines extends AbstractEndpoint implements Endpoint
+class Bloodlines extends AbstractEndpoint implements EndpointInterface
 {
     public function path(): string
     {

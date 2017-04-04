@@ -2,9 +2,9 @@
 
 namespace App\Esi\Endpoint;
 
-use App\Esi\Endpoint;
+use App\Esi\EndpointInterface;
 
-abstract class AbstractEndpoint implements Endpoint
+abstract class AbstractEndpoint implements EndpointInterface
 {
     /**
      * @var array

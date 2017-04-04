@@ -28,12 +28,12 @@ class ApiClient
     }
 
     /**
-     * @param \App\Esi\Endpoint $endpoint
+     * @param \App\Esi\EndpointInterface $endpoint
      * @param array $options
      *
      * @return \Psr\Http\Message\RequestInterface
      */
-    public function createRequest(Endpoint $endpoint, array $options = []): RequestInterface
+    public function createRequest(EndpointInterface $endpoint, array $options = []): RequestInterface
     {
         $options = $this->parseOptions($endpoint, $options);
 
@@ -49,12 +49,12 @@ class ApiClient
     /**
      * Parses simplified options.
      *
-     * @param \App\Esi\Endpoint $endpoint
+     * @param \App\Esi\EndpointInterface $endpoint
      * @param array $options Simplified options.
      *
      * @return array Extended options for use with getRequest.
      */
-    protected function parseOptions(Endpoint $endpoint, array $options)
+    protected function parseOptions(EndpointInterface $endpoint, array $options)
     {
         $defaults = [
             'headers' => $endpoint->headers(),
