@@ -60,32 +60,40 @@ services:
   # controllers
 
   app.controller.index:
+    public: true
     class: 'App\Controller\IndexController'
     arguments: ['@templating', '@app.esi.api_client', '@httplug.client']
 
   app.controller.assets:
+    public: true
     class: 'App\Controller\AssetsController'
     arguments: ['@templating', '@app.esi.api_client', '@httplug.client']
 
   app.controller.skills.trained:
+    public: true
     class: 'App\Controller\Skills\TrainedController'
     arguments: ['@templating', '@app.esi.api_client', '@httplug.client']
 
   app.controller.skills.untrained:
+    public: true
     class: 'App\Controller\Skills\UntrainedController'
     arguments: ['@templating', '@app.esi.api_client', '@httplug.client']
 
   app.controller.skills.queued:
+    public: true
     class: 'App\Controller\Skills\QueuedController'
     arguments: ['@templating', '@app.esi.api_client', '@httplug.client']
 
   app.controller.security.login:
+    public: true
     class: 'App\Controller\Security\LoginController'
     arguments: ['@templating', '@app.security.oauth2_provider', '%eve_scopes%']
 
   app.controller.security.check:
+    public: true
     class: 'App\Controller\Security\CheckController'
 
   app.controller.debug:
+    public: true
     class: 'App\Controller\DebugController'
     arguments: ['@templating', '@security.token_storage', '@app.security.oauth2_provider']
