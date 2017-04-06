@@ -36,7 +36,7 @@ services:
     class: 'App\Security\LogoutSuccessHandler'
     arguments: ['@templating']
 
-  App\Security\OAuth2Subscriber: ['@security.token_storage', '@app.security.oauth2_client', '@logger']
+  App\Security\OAuth2Subscriber: ['@security.token_storage', '@app.security.oauth2_client', '@router', '@logger']
 
   # esi
 

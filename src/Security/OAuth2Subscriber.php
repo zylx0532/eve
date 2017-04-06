@@ -14,6 +14,7 @@ use League\OAuth2\Client\Token\AccessToken;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -28,6 +29,10 @@ class OAuth2Subscriber implements EventSubscriberInterface
      */
     private $logger;
     /**
+     * @var \Symfony\Component\Routing\RouterInterface
+     */
+    private $router;
+    /**
      * @var \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface
      */
     private $tokenStorage;
@@ -35,12 +40,18 @@ class OAuth2Subscriber implements EventSubscriberInterface
     /**
      * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage
      * @param \App\Security\OAuth2Client $oauth2Client
+     * @param \Symfony\Component\Routing\RouterInterface $router
      * @param \Psr\Log\LoggerInterface $logger
      */
-    public function __construct(TokenStorageInterface $tokenStorage, OAuth2Client $oauth2Client, LoggerInterface $logger = null)
-    {
+    public function __construct(
+        TokenStorageInterface $tokenStorage,
+        OAuth2Client $oauth2Client,
+        RouterInterface $router,
+        LoggerInterface $logger = null
+    ) {
         $this->tokenStorage = $tokenStorage;
         $this->oauth2Client = $oauth2Client;
+        $this->router = $router;
         $this->logger = $logger;
     }
 
@@ -73,6 +84,12 @@ class OAuth2Subscriber implements EventSubscriberInterface
     public function refreshToken(GetResponseEvent $event)
     {
         if (!$event->isMasterRequest()) {
+            return;
+        }
+
+        $request = $event->getRequest();
+
+        if ($request->getPathInfo() === $this->router->generate('security.login')) {
             return;
         }
 
