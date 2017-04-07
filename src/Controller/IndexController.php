@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @Route(service="app.controller.index")
+ * @Route(service="controller.index")
  */
 class IndexController
 {

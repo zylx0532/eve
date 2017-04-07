@@ -14,6 +14,7 @@ use Alcohol\OAuth2\Client\Provider\EveOnlineResourceOwner;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class OAuth2Client
@@ -33,6 +34,18 @@ class OAuth2Client
     public function __construct(EveOnline $provider)
     {
         $this->provider = $provider;
+    }
+
+    /**
+     * @param array $options
+     *
+     * @return string
+     */
+    public function getAuthorizationUrl(array $options = []): string
+    {
+        $authorizationUrl = $this->provider->getAuthorizationUrl($options);
+
+        return $authorizationUrl;
     }
 
     /**
@@ -99,5 +112,13 @@ class OAuth2Client
         }
 
         return $resource;
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Session\SessionInterface $session
+     */
+    public function setStateInSession(SessionInterface $session)
+    {
+        $session->set(self::SESSION_STATE, $this->provider->getState());
     }
 }

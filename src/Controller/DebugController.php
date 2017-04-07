@@ -19,7 +19,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @Route(service="app.controller.debug")
+ * @Route(service="controller.debug")
  */
 class DebugController
 {
@@ -27,12 +27,10 @@ class DebugController
      * @var \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface
      */
     private $engine;
-
     /**
      * @var \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface
      */
     private $storage;
-
     /**
      * @var \Alcohol\OAuth2\Client\Provider\EveOnline
      */

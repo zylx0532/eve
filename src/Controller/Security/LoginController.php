@@ -9,17 +9,15 @@
 
 namespace App\Controller\Security;
 
-use Alcohol\OAuth2\Client\Provider\EveOnline;
 use App\Security\OAuth2Client;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
- * @Route(service="app.controller.security.login")
+ * @Route(service="controller.security.login")
  */
 class LoginController
 {
@@ -28,9 +26,9 @@ class LoginController
      */
     private $engine;
     /**
-     * @var \Alcohol\OAuth2\Client\Provider\EveOnline
+     * @var \App\Security\OAuth2Client
      */
-    private $provider;
+    private $oauth2Client;
     /**
      * @var array
      */
@@ -38,13 +36,13 @@ class LoginController
 
     /**
      * @param \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface $engine
-     * @param \Alcohol\OAuth2\Client\Provider\EveOnline $provider
+     * @param \App\Security\OAuth2Client $oauth2Client
      * @param array $scopes
      */
-    public function __construct(EngineInterface $engine, EveOnline $provider, array $scopes = [])
+    public function __construct(EngineInterface $engine, OAuth2Client $oauth2Client, array $scopes = [])
     {
         $this->engine = $engine;
-        $this->provider = $provider;
+        $this->oauth2Client = $oauth2Client;
         $this->scopes = $scopes;
     }
 
@@ -58,15 +56,8 @@ class LoginController
      */
     public function __invoke(Request $request): Response
     {
-        $session = $request->getSession();
-
-        if (!($session instanceof SessionInterface)) {
-            throw new \RuntimeException('No session available, please check server configuration.');
-        }
-
-        $authorizationUrl = $this->provider->getAuthorizationUrl(['scope' => $this->scopes]);
-
-        $session->set(OAuth2Client::SESSION_STATE, $this->provider->getState());
+        $authorizationUrl = $this->oauth2Client->getAuthorizationUrl(['scope' => $this->scopes]);
+        $this->oauth2Client->setStateInSession($request->getSession());
 
         return new Response($this->engine->render('login.html.twig', [
             'authorizationUrl' => $authorizationUrl,

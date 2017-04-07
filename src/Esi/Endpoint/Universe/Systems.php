@@ -10,9 +10,9 @@
 namespace App\Esi\Endpoint\Universe;
 
 use App\Esi\EndpointInterface;
-use App\Esi\Endpoint\AbstractEndpoint;
+use App\Esi\Endpoint\Endpoint;
 
-class Systems extends AbstractEndpoint implements EndpointInterface
+class Systems extends Endpoint implements EndpointInterface
 {
     public function path(): string
     {

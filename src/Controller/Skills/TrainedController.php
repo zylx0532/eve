@@ -12,7 +12,6 @@ namespace App\Controller\Skills;
 use App\Esi\Endpoint\Characters\Skills;
 use App\Esi\Endpoint\Universe\Category;
 use App\Esi\Endpoint\Universe\Group;
-use App\Esi\Endpoint\Universe\Names;
 use App\Esi\ApiClient;
 use App\Esi\Endpoint\Universe\Type;
 use Http\Client\HttpAsyncClient;
@@ -26,7 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @Route(service="app.controller.skills.trained")
+ * @Route(service="controller.skills.trained")
  */
 class TrainedController
 {
@@ -92,7 +91,12 @@ class TrainedController
         return $response;
     }
 
-    protected function handleSkillsResponse(ResponseInterface $response)
+    /**
+     * @param \Psr\Http\Message\ResponseInterface $response
+     *
+     * @return array
+     */
+    protected function handleSkillsResponse(ResponseInterface $response): array
     {
         $json = $response->getBody()->getContents();
         $data = json_decode($json, true);
@@ -116,6 +120,10 @@ class TrainedController
         ];
     }
 
+    /**
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param array $tree
+     */
     protected function buildTree(ResponseInterface $response, array &$tree)
     {
         $json = $response->getBody()->getContents();
@@ -136,6 +144,10 @@ class TrainedController
         }
     }
 
+    /**
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param array $tree
+     */
     protected function addGroupToTree(ResponseInterface $response, array &$tree)
     {
         $json = $response->getBody()->getContents();

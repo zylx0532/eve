@@ -2,7 +2,7 @@ security:
 
   providers:
     users:
-      id: 'app.user.provider'
+      id: 'user.provider'
 
   firewalls:
     assets:
@@ -15,10 +15,10 @@ security:
       logout:
         path: '/security/logout'
         invalidate_session: true
-        success_handler: 'app.security.logout_handler'
+        success_handler: 'security.logout_handler'
       guard:
         authenticators:
-          - 'app.security.oauth2_guard'
+          - 'security.oauth2_guard'
 
   access_control:
     - { path: '^/security/', roles: 'IS_AUTHENTICATED_ANONYMOUSLY' }

@@ -30,7 +30,7 @@ class AppKernel extends Kernel
     /**
      * @var array
      */
-    protected $environments = ['test', 'dev', 'prod'];
+    protected $environments = ['testing', 'development', 'production'];
 
     /**
      * @param string $environment
@@ -51,7 +51,10 @@ class AppKernel extends Kernel
         parent::__construct($environment, $debug);
     }
 
-    public function registerBundles()
+    /**
+     * @return \Symfony\Component\HttpKernel\Bundle\BundleInterface[]
+     */
+    public function registerBundles(): array
     {
         $bundles = [
             new FrameworkBundle(),
@@ -64,7 +67,7 @@ class AppKernel extends Kernel
             new AppBundle(),
         ];
 
-        if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
+        if ($this->isTestingEnvironment() || $this->isDevelopmentEnvironment()) {
             $bundles[] = new DebugBundle();
             $bundles[] = new WebProfilerBundle();
             $bundles[] = new WebServerBundle();
@@ -73,23 +76,56 @@ class AppKernel extends Kernel
         return $bundles;
     }
 
-    public function getRootDir()
+    /**
+     * @return string
+     */
+    public function getRootDir(): string
     {
         return __DIR__;
     }
 
-    public function getCacheDir()
+    /**
+     * @return string
+     */
+    public function getCacheDir(): string
     {
-        return dirname(__DIR__) . '/var/cache/' . $this->getEnvironment();
+        return sprintf('%s/var/%s/cache', dirname(__DIR__), $this->getEnvironment());
     }
 
+    /**
+     * @return string
+     */
     public function getLogDir()
     {
-        return dirname(__DIR__) . '/var/logs';
+        return sprintf('%s/var/%s/logs', dirname(__DIR__), $this->getEnvironment());
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load($this->getRootDir() . '/config/config_' . $this->getEnvironment() . '.yml');
+        $loader->load(__DIR__ . '/config/config_' . $this->getEnvironment() . '.yml');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTestingEnvironment(): bool
+    {
+        return 'testing' === $this->getEnvironment();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDevelopmentEnvironment(): bool
+    {
+        return 'development' === $this->getEnvironment();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isProductionEnvironment(): bool
+    {
+        return 'production' === $this->getEnvironment();
     }
 }

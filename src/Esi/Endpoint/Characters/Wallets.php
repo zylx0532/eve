@@ -10,9 +10,9 @@
 namespace App\Esi\Endpoint\Characters;
 
 use App\Esi\EndpointInterface;
-use App\Esi\Endpoint\AbstractEndpoint;
+use App\Esi\Endpoint\Endpoint;
 
-class Wallets extends AbstractEndpoint implements EndpointInterface
+class Wallets extends Endpoint implements EndpointInterface
 {
     public function path(): string
     {

@@ -6,7 +6,7 @@ framework:
     system: 'cache.adapter.filesystem'
     app: 'cache.adapter.filesystem'
   router:
-    resource: '%kernel.root_dir%/config/routing_dev.yml'
+    resource: '%kernel.root_dir%/config/routing_development.yml'
     strict_requirements: true
   profiler:
     enabled: true

@@ -14,7 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route(service="app.controller.security.check")
+ * @Route(service="controller.security.check")
  */
 class CheckController
 {

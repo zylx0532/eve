@@ -10,9 +10,9 @@
 namespace App\Esi\Endpoint\Universe;
 
 use App\Esi\EndpointInterface;
-use App\Esi\Endpoint\AbstractEndpoint;
+use App\Esi\Endpoint\Endpoint;
 
-class Moons extends AbstractEndpoint implements EndpointInterface
+class Moons extends Endpoint implements EndpointInterface
 {
     public function path(): string
     {

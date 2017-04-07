@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 $loader = require_once __DIR__ . '/../app/autoload.php';
 $kernel = new AppKernel(getenv('SYMFONY_ENV'), (bool) getenv('SYMFONY_DEBUG'));
 
-if (in_array(getenv('SYMFONY_ENV'), ['prod'], true)) {
+if ($kernel->isProductionEnvironment()) {
     $kernel = new AppCache($kernel);
     Request::enableHttpMethodParameterOverride();
 }

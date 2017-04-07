@@ -10,9 +10,9 @@
 namespace App\Esi\Endpoint\Characters;
 
 use App\Esi\EndpointInterface;
-use App\Esi\Endpoint\AbstractEndpoint;
+use App\Esi\Endpoint\Endpoint;
 
-class SkillQueue extends AbstractEndpoint implements EndpointInterface
+class SkillQueue extends Endpoint implements EndpointInterface
 {
     public function path(): string
     {

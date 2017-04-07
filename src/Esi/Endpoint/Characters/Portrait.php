@@ -10,9 +10,9 @@
 namespace App\Esi\Endpoint\Characters;
 
 use App\Esi\EndpointInterface;
-use App\Esi\Endpoint\AbstractEndpoint;
+use App\Esi\Endpoint\Endpoint;
 
-class Portrait extends AbstractEndpoint implements EndpointInterface
+class Portrait extends Endpoint implements EndpointInterface
 {
     public function path(): string
     {

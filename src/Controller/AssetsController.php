@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @Route(service="app.controller.assets")
+ * @Route(service="controller.assets")
  */
 class AssetsController
 {
