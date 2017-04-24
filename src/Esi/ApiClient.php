@@ -62,6 +62,6 @@ class ApiClient
             'version' => '1.1',
         ];
 
-        return array_merge($defaults, $options);
+        return \App\Fn\array_merge_recursive_overwrite($defaults, $options);
     }
 }

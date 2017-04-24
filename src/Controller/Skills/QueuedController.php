@@ -88,9 +88,10 @@ class QueuedController
 
         $identifiers = array_unique(array_column($queue, 'skill_id'));
 
-        $request = $this->api->createRequest(new Names(), array_merge($options, [
+        $request = $this->api->createRequest(new Names(), \App\Fn\array_merge_recursive_overwrite($options, [
             'body' => \GuzzleHttp\Psr7\stream_for(json_encode(array_values($identifiers)))
         ]));
+
         $response = $this->httpClient->sendRequest($request);
         $json = $response->getBody()->getContents();
         $data = json_decode($json, true);

@@ -263,3 +263,26 @@ function is_stargate($identifier)
     return $identifier > 50000000
         && $identifier < 51000000;
 }
+
+/**
+ * @param array $array
+ * @param array[] $arrays
+ *
+ * @return array
+ */
+function array_merge_recursive_overwrite(array $array, array ...$arrays)
+{
+    $merged = $array;
+
+    foreach ($arrays as $array) {
+        foreach ($array as $key => $value) {
+            if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
+                $merged[$key] = array_merge_recursive_overwrite($merged[$key], $value);
+            } else {
+                $merged[$key] = $value;
+            }
+        }
+    }
+
+    return $merged;
+}
