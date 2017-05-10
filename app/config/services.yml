@@ -37,7 +37,7 @@ services:
 
   esi.client:
     class: 'App\Esi\ApiClient'
-    arguments: ['@httplug.message_factory']
+    arguments: ['@httplug.message_factory', '@httplug.client.default', '@httplug.client.async']
 
   # cache
 
@@ -56,7 +56,7 @@ services:
   controller.index:
     public: true
     class: 'App\Controller\IndexController'
-    arguments: ['@templating', '@esi.client', '@httplug.client']
+    arguments: ['@templating', '@esi.client']
   controller.assets:
     public: true
     class: 'App\Controller\AssetsController'
@@ -72,7 +72,7 @@ services:
   controller.skills.queued:
     public: true
     class: 'App\Controller\Skills\QueuedController'
-    arguments: ['@templating', '@esi.client', '@httplug.client']
+    arguments: ['@templating', '@esi.client']
   controller.security.login:
     public: true
     class: 'App\Controller\Security\LoginController'

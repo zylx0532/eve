@@ -13,9 +13,8 @@ abstract class Endpoint implements EndpointInterface
 
     /**
      * @param array $placeholders
-     * @param array $options
      */
-    public function __construct(array $placeholders = [], array $options = [])
+    public function __construct(array $placeholders = [])
     {
         $this->placeholders = $placeholders;
     }

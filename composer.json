@@ -25,7 +25,8 @@
     "vlucas/phpdotenv": "^2.4"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "dev-master || ^2.1"
+    "friendsofphp/php-cs-fixer": "^2.1",
+    "phpstan/phpstan": "^0.6.4"
   },
   "scripts": {
     "symfony-scripts": [
@@ -41,7 +42,7 @@
   },
   "config": {
     "platform": {
-      "php": "7.1.0"
+      "php": "7.1"
     },
     "sort-packages": true
   },

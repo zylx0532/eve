@@ -265,6 +265,10 @@ function is_stargate($identifier)
 }
 
 /**
+ * Merge arrays recursively.
+ *
+ * Overwrites non-array values instead of converting them to an array like `array_merge_recursive` does.
+ *
  * @param array $array
  * @param array[] $arrays
  *
