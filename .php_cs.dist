@@ -8,16 +8,14 @@ the LICENSE file that was distributed with this source code.
 EOF;
 
 $finder = new PhpCsFixer\Finder();
-$config = new PhpCsFixer\Config('eve-capsuleer-dashboard', 'eve-capsuleer-dashboard style guide');
+$config = new PhpCsFixer\Config('eve-capsuleer-dashboard');
 
 $finder
-    ->exclude('cfg')
-    ->exclude('var')
-    ->exclude('docker')
     ->in(__DIR__)
+    ->exclude(['cfg', 'var', 'docker'])
+    ->append(['.php_cs.dist'])
 ;
 
-/* Based on ^2.1 of php-cs-fixer */
 $config
     ->setRules([
         // default

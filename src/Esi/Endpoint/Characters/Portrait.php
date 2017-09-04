@@ -9,8 +9,8 @@
 
 namespace App\Esi\Endpoint\Characters;
 
-use App\Esi\EndpointInterface;
 use App\Esi\Endpoint\Endpoint;
+use App\Esi\EndpointInterface;
 
 class Portrait extends Endpoint implements EndpointInterface
 {

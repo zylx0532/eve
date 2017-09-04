@@ -13,6 +13,7 @@ namespace App\Fn;
  * Identifier is a citadel.
  *
  * @param $identifier
+ *
  * @return bool
  */
 function is_citadel($identifier)
@@ -24,6 +25,7 @@ function is_citadel($identifier)
  * Identifier is a station (either npc station or null-sec outpost).
  *
  * @param $identifier
+ *
  * @return bool
  */
 function is_station($identifier)
@@ -36,6 +38,7 @@ function is_station($identifier)
  * Identifier is an npc station.
  *
  * @param $identifier
+ *
  * @return bool
  */
 function is_npc_station($identifier)
@@ -48,6 +51,7 @@ function is_npc_station($identifier)
  * Identifier is an outpost (can be player owned).
  *
  * @param $identifier
+ *
  * @return bool
  */
 function is_outpost($identifier)
@@ -60,6 +64,7 @@ function is_outpost($identifier)
  * Identifier is k-space.
  *
  * @param $identifier
+ *
  * @return bool
  */
 function is_kspace($identifier)
@@ -73,6 +78,7 @@ function is_kspace($identifier)
  * Identifier is w-space.
  *
  * @param $identifier
+ *
  * @return bool
  */
 function is_wspace($identifier)
@@ -86,6 +92,7 @@ function is_wspace($identifier)
  * Identifier is a k-space region.
  *
  * @param $identifier
+ *
  * @return bool
  */
 function is_kspace_region($identifier)
@@ -98,6 +105,7 @@ function is_kspace_region($identifier)
  * Identifier is jove space.
  *
  * @param $identifier
+ *
  * @return bool
  */
 function is_jove_region($identifier)
@@ -113,6 +121,7 @@ function is_jove_region($identifier)
  * Identifier is a w-space region.
  *
  * @param $identifier
+ *
  * @return bool
  */
 function is_wspace_region($identifier)
@@ -125,6 +134,7 @@ function is_wspace_region($identifier)
  * Identifier is shattered w-space region.
  *
  * @param $identifier
+ *
  * @return bool
  */
 function is_shattered_region($identifier)
@@ -134,7 +144,9 @@ function is_shattered_region($identifier)
 
 /**
  * Identifier is drifter w-space region.
+ *
  * @param $identifier
+ *
  * @return bool
  */
 function is_drifter_region($identifier)
@@ -146,6 +158,7 @@ function is_drifter_region($identifier)
  * Identifier is a k-space constellation.
  *
  * @param $identifier
+ *
  * @return bool
  */
 function is_kspace_constellation($identifier)
@@ -158,6 +171,7 @@ function is_kspace_constellation($identifier)
  * Identifier is a w-space constellation.
  *
  * @param $identifier
+ *
  * @return bool
  */
 function is_wspace_constellation($identifier)
@@ -170,6 +184,7 @@ function is_wspace_constellation($identifier)
  * Identifier is Thera w-space constellation.
  *
  * @param $identifier
+ *
  * @return bool
  */
 function is_thera_constellation($identifier)
@@ -181,6 +196,7 @@ function is_thera_constellation($identifier)
  * Identifier is drifter w-space constellation.
  *
  * @param $identifier
+ *
  * @return bool
  */
 function is_drifter_constellation($identifier)
@@ -192,6 +208,7 @@ function is_drifter_constellation($identifier)
  * Identifier is a k-space system.
  *
  * @param $identifier
+ *
  * @return bool
  */
 function is_kspace_system($identifier)
@@ -204,6 +221,7 @@ function is_kspace_system($identifier)
  * Identifier is a w-space system.
  *
  * @param $identifier
+ *
  * @return bool
  */
 function is_wspace_system($identifier)
@@ -216,6 +234,7 @@ function is_wspace_system($identifier)
  * Identifier is a drifter w-space system.
  *
  * @param $identifier
+ *
  * @return bool
  */
 function is_drifter_system($identifier)
@@ -233,6 +252,7 @@ function is_drifter_system($identifier)
  * Identifier is Thera w-space system.
  *
  * @param $identifier
+ *
  * @return bool
  */
 function is_thera_system($identifier)
@@ -244,6 +264,7 @@ function is_thera_system($identifier)
  * Identifier is a planet, moon, asteroid/ice belt or other celestial.
  *
  * @param $identifier
+ *
  * @return bool
  */
 function is_celestial($identifier)
@@ -256,6 +277,7 @@ function is_celestial($identifier)
  * Identifier is a stargate.
  *
  * @param $identifier
+ *
  * @return bool
  */
 function is_stargate($identifier)

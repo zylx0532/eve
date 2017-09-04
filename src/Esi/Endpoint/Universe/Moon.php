@@ -9,8 +9,8 @@
 
 namespace App\Esi\Endpoint\Universe;
 
-use App\Esi\EndpointInterface;
 use App\Esi\Endpoint\Endpoint;
+use App\Esi\EndpointInterface;
 
 class Moon extends Endpoint implements EndpointInterface
 {

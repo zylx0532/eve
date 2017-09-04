@@ -9,16 +9,16 @@
 
 namespace App\Controller\Skills;
 
+use App\Esi\ApiClient;
 use App\Esi\Endpoint\Characters\Skills;
 use App\Esi\Endpoint\Universe\Category;
 use App\Esi\Endpoint\Universe\Group;
-use App\Esi\ApiClient;
 use App\Esi\Endpoint\Universe\Type;
 use Http\Client\HttpAsyncClient;
 use Http\Promise\Promise;
 use Psr\Http\Message\ResponseInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -81,7 +81,7 @@ class TrainedController
         })->wait(false);
 
         usort($tree, function ($left, $right) {
-            return (strcasecmp($left['name'], $right['name']));
+            return strcasecmp($left['name'], $right['name']);
         });
 
         $parameters['tree'] = $tree;
@@ -104,9 +104,9 @@ class TrainedController
 
         list($trained, $untrained) = array_reduce($skills, function ($carry, $skill) {
             if (0 < $skill['current_skill_level']) {
-                $carry[0]++;
+                ++$carry[0];
             } else {
-                $carry[1]++;
+                ++$carry[1];
             }
 
             return $carry;

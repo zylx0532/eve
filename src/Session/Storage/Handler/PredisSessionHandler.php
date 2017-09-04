@@ -63,7 +63,7 @@ class PredisSessionHandler implements \SessionHandlerInterface
      * @param bool $locking
      * @param int $spinLockWait
      */
-    public function __construct(Client $redis, array $options = array(), $prefix = 'session.', $locking = true, $spinLockWait = 150000)
+    public function __construct(Client $redis, array $options = [], $prefix = 'session.', $locking = true, $spinLockWait = 150000)
     {
         $this->redis = $redis;
         $this->ttl = isset($options['gc_maxlifetime']) ? (int) $options['gc_maxlifetime'] : 0;
@@ -104,10 +104,9 @@ class PredisSessionHandler implements \SessionHandlerInterface
         $attempts = (1000000 / $this->spinLockWait) * $this->lockMaxWait;
 
         $this->token = uniqid();
-        $this->lockKey = $sessionId.'.lock';
+        $this->lockKey = $sessionId . '.lock';
 
-        for ($i = 0;$i < $attempts;++$i) {
-
+        for ($i = 0; $i < $attempts; ++$i) {
             // We try to aquire the lock
             $setFunction = function (Client $redis, $key, $token, $ttl) {
                 return $redis->set(
@@ -239,7 +238,7 @@ LUA;
             return $key;
         }
 
-        return $this->prefix.$key;
+        return $this->prefix . $key;
     }
 
     /**

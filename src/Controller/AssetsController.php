@@ -9,15 +9,15 @@
 
 namespace App\Controller;
 
+use App\Esi\ApiClient;
 use App\Esi\Endpoint\Characters\Assets;
 use App\Esi\Endpoint\Universe\Names;
 use App\Esi\Endpoint\Universe\Station;
 use App\Esi\Endpoint\Universe\Structure;
-use App\Esi\ApiClient;
 use Http\Client\Exception\HttpException;
 use Http\Client\HttpClient;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -87,7 +87,7 @@ class AssetsController
         ));
 
         $request = $this->apiClient->createRequest(new Names(), array_merge($options, [
-            'body' => \GuzzleHttp\Psr7\stream_for(json_encode(array_values($identifiers)))
+            'body' => \GuzzleHttp\Psr7\stream_for(json_encode(array_values($identifiers))),
         ]));
         $response = $this->httpClient->sendRequest($request);
         $json = $response->getBody()->getContents();
@@ -154,14 +154,16 @@ class AssetsController
                 try {
                     $locations[$id] = $this->getStructureDetails($options, $id);
                     continue;
-                } catch (HttpException $exception) {}
+                } catch (HttpException $exception) {
+                }
             }
 
             if (\App\Fn\is_station($id)) {
                 try {
                     $locations[$id] = $this->getStationDetails($options, $id);
                     continue;
-                } catch (HttpException $exception) {}
+                } catch (HttpException $exception) {
+                }
             }
         }
 
@@ -210,7 +212,7 @@ class AssetsController
             }
 
             if (!array_key_exists($asset['item_id'], $carry[0][$asset['location_id']])) {
-                $carry[0][$asset['location_id']][$asset['item_id']] =& $carry[0][$asset['item_id']];
+                $carry[0][$asset['location_id']][$asset['item_id']] = &$carry[0][$asset['item_id']];
             }
 
             if (!in_array($asset['location_id'], $locationIdentifiers)) {
@@ -218,7 +220,7 @@ class AssetsController
             }
 
             if (!array_key_exists($asset['location_id'], $carry[1])) {
-                $carry[1][$asset['location_id']] =& $carry[0][$asset['location_id']];
+                $carry[1][$asset['location_id']] = &$carry[0][$asset['location_id']];
             }
 
             return $carry;

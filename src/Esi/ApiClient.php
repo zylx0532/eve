@@ -109,7 +109,7 @@ class ApiClient
      */
     public function getWallets(AccessToken $token, int $characterId)
     {
-        $endpoint = new Endpoint\Characters\Wallets(['character_id' => $characterId]);
+        $endpoint = new Endpoint\Characters\Wallet(['character_id' => $characterId]);
         $options = ['headers' => ['Authorization' => 'Bearer ' . $token]];
         $request = $this->createRequest($endpoint, $options);
         $response = $this->httpClient->sendRequest($request);
@@ -192,9 +192,9 @@ class ApiClient
      * Parses simplified options.
      *
      * @param \App\Esi\EndpointInterface $endpoint
-     * @param array $options Simplified options.
+     * @param array $options simplified options
      *
-     * @return array Extended options for use with getRequest.
+     * @return array extended options for use with getRequest
      */
     protected function parseOptions(EndpointInterface $endpoint, array $options)
     {

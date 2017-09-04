@@ -9,13 +9,13 @@
 
 namespace App\Esi\Endpoint\Characters;
 
-use App\Esi\EndpointInterface;
 use App\Esi\Endpoint\Endpoint;
+use App\Esi\EndpointInterface;
 
-class Wallets extends Endpoint implements EndpointInterface
+class Wallet extends Endpoint implements EndpointInterface
 {
     public function path(): string
     {
-        return $this->buildPath('/latest/characters/{character_id}/wallets/', $this->placeholders);
+        return $this->buildPath('/latest/characters/{character_id}/wallet/', $this->placeholders);
     }
 }
