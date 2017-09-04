@@ -105,15 +105,15 @@ class ApiClient
      * @param \League\OAuth2\Client\Token\AccessToken $token
      * @param int $characterId
      *
-     * @return array
+     * @return float
      */
-    public function getWallets(AccessToken $token, int $characterId)
+    public function getWallet(AccessToken $token, int $characterId)
     {
         $endpoint = new Endpoint\Characters\Wallet(['character_id' => $characterId]);
         $options = ['headers' => ['Authorization' => 'Bearer ' . $token]];
         $request = $this->createRequest($endpoint, $options);
         $response = $this->httpClient->sendRequest($request);
-        $data = array_column(json_decode($response->getBody()->getContents(), true), null, 'wallet_id');
+        $data = json_decode($response->getBody()->getContents(), true);
 
         return $data;
     }

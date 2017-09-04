@@ -61,20 +61,15 @@ class IndexController
         $portrait = $this->apiClient->getPortrait($accessToken, $characterId);
         $races = $this->apiClient->getRaces();
         $skills = $this->apiClient->getSkills($accessToken, $characterId);
-        $wallets = $this->apiClient->getWallets($accessToken, $characterId);
-
-        $isk = round(array_reduce($wallets, function ($carry, $wallet) {
-            return $carry + $wallet['balance'];
-        }, 0) / 100, 2);
+        $wallet = $this->apiClient->getWallet($accessToken, $characterId);
 
         $response = new Response($this->engine->render('pilot/overview.html.twig', [
             'bloodline' => $bloodlines[$character['bloodline_id']],
             'character_details' => $character,
             'character_portrait' => $portrait,
-            'isk' => $isk,
             'race' => $races[$character['race_id']],
             'sp' => $skills['total_sp'],
-            'wallets' => $wallets,
+            'wallet' => $wallet,
         ]), 200);
 
         return $response;
