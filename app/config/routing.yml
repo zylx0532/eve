@@ -1,6 +1,0 @@
-app:
-  resource: '@AppBundle/Controller/'
-  type: 'annotation'
-
-security.logout:
-  path: '/security/logout'

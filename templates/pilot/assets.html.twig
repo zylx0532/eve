@@ -1,0 +1,45 @@
+{% extends 'layout.html.twig' %}
+
+{% block main %}
+
+<label class="sr-only" for="inlineFormInputGroupUsername2">Search</label>
+<div class="input-group mb-2 mr-sm-2">
+    <div class="input-group-prepend">
+        <div class="input-group-text"><i class="fas fa-search"></i></div>
+    </div>
+    <input type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Search">
+</div>
+
+<ul class="tree mt-4">
+
+    {%- include 'pilot/assets/list.html.twig' with { 'tree': tree } -%}
+
+</ul>
+
+{% endblock %}
+
+{% block script %}
+
+    <script>
+        $(document).ready(function () {
+
+            (function ($) {
+
+                $('#filter').keyup(function () {
+
+                    var rex = new RegExp($(this).val(), 'i');
+                    var rows = $('.tree li');
+
+                    rows.hide();
+                    rows.filter(function () {
+                        return rex.test($(this).text());
+                    }).show();
+
+                })
+
+            }(jQuery));
+
+        });
+    </script>
+
+{% endblock %}

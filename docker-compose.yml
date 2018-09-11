@@ -1,0 +1,51 @@
+version: '3.3'
+
+services:
+
+  php:
+    build:
+      context: .
+      dockerfile: docker/services/php-fpm/Dockerfile
+    container_name: eve-assets-fpm
+    environment:
+      - APP_ENV=dev
+      - APP_DEBUG=1
+      - APP_SECRET=not-so-secret
+      - EVE_CLIENT_ID=e39201af27124b50ae81d19629100a53
+      - EVE_CLIENT_SECRET=baDlVrjPUh58FQXDYZSV9c0jZ7vcNScnxuNYWLOe
+      - EVE_CALLBACK_URL=http://eveassets.localhost/security/check
+      - EVE_ESI_URI=https://esi.evetech.net
+    working_dir: /srv
+    volumes:
+      - .:/srv
+    networks:
+      default:
+        aliases:
+          - fcgi
+
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/services/nginx/Dockerfile
+    container_name: eve-assets-nginx
+    labels:
+      traefik.enable: true
+      traefik.docker.network: traefik_webgateway
+      traefik.backend: eveassets
+      traefik.frontend.rule: "Host:eveassets.localhost"
+      traefik.port: 8000
+    depends_on:
+      - php
+    links:
+      - php
+      - php:fcgi
+    networks:
+      - traefik_webgateway
+      - default
+
+networks:
+
+  default:
+
+  traefik_webgateway:
+    external: true

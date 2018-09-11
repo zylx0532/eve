@@ -1,0 +1,29 @@
+index:
+  path: /
+  methods: [GET]
+  controller: App\Controller\IndexController
+assets:
+  path: /pilot/assets/
+  methods: [GET]
+  controller: App\Controller\AssetsController
+skills.queued:
+  path: /pilot/skills/queued/
+  methods: [GET]
+  controller: App\Controller\Skills\QueuedController
+skills.trained:
+  path: /pilot/skills/trained/
+  methods: [GET]
+  controller: App\Controller\Skills\TrainedController
+debug:
+  path: /debug/
+  methods: [GET]
+  controller: App\Controller\DebugController
+
+security.check:
+  path: /security/check
+security.login:
+  path: /security/login
+  methods: [GET]
+  controller: App\Controller\Security\LoginController
+security.logout:
+  path: /security/logout

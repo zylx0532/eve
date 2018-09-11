@@ -1,0 +1,53 @@
+dist: trusty
+
+sudo: required
+
+language: php
+
+services:
+  - docker
+
+git:
+  depth: 3
+
+env:
+  global:
+    - DOCKER_COMPOSE_VERSION=1.22.0
+    - DOCKER_COMPOSE_RELEASE="https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)"
+    - SENTRY_DSN=
+
+cache:
+  directories:
+    - "$HOME/.composer/cache/files"
+    - "vendor"
+
+matrix:
+  include:
+    - php: 7.2
+  fast_finish: true
+
+before_install:
+  # upgrade docker
+  - docker --version
+  - sudo apt-get update
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+  - docker --version
+  # install a recent docker-compose version
+  - sudo curl --silent --fail --retry 3 --location --output /usr/bin/docker-compose --url $DOCKER_COMPOSE_RELEASE
+  - docker-compose --version
+  # disable xdebug if available
+  - phpenv config-rm xdebug.ini || echo "xdebug not available"
+  # disable default memory limit
+  - echo memory_limit = -1 >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+
+script:
+  - docker build --file=docker/services/nginx/Dockerfile --tag=alcohol/eve-nginx:latest .
+  - docker build --file=docker/services/php-fpm/Dockerfile.dist --tag=alcohol/eve-fpm:latest --build-arg=RELEASE=$(git rev-parse --short ${TRAVIS_COMMIT}) .
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
+      echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin;
+      docker push alcohol/eve-nginx:latest;
+      docker push alcohol/eve-fpm:latest;
+      docker logout;
+    fi

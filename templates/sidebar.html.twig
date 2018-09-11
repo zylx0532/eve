@@ -1,0 +1,45 @@
+<div class="d-flex p-3"><strong>EVE Capsuleer Dashboard</strong></div>
+
+<ul class="nav flex-column">
+
+    <li class="nav-item">
+        <span class="nav-link"><i class="fa fa-user mr-1" aria-hidden="true"></i> Pilot</span>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link{% if app.request.get('_route') == 'index' %} active{% endif %}" href="{{ path('index') }}">
+            Overview {% if app.request.get('_route') == 'index' %}<span class="sr-only">(current)</span>{% endif %}
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link{% if app.request.get('_route') == 'assets' %} active{% endif %}" href="{{ path('assets') }}">
+            Assets {% if app.request.get('_route') == 'assets' %}<span class="sr-only">(current)</span>{% endif %}
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link text-danger" href="{{ path('security.logout') }}">Logout</a>
+    </li>
+
+</ul>
+
+<ul class="nav flex-column">
+
+    <li class="nav-item">
+        <span class="nav-link"><i class="fa fa-book mr-1" aria-hidden="true"></i> Skills</span>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link{% if app.request.get('_route') == 'skills.trained' %} active{% endif %}" href="{{ path('skills.trained') }}">
+            Trained {% if app.request.get('_route') == 'skills.trained' %}<span class="sr-only">(current)</span>{% endif %}
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link{% if app.request.get('_route') == 'skills.queued' %} active{% endif %}" href="{{ path('skills.queued') }}">
+            Queued {% if app.request.get('_route') == 'skills.queued' %}<span class="sr-only">(current)</span>{% endif %}
+        </a>
+    </li>
+
+</ul>

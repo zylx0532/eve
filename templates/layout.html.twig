@@ -1,0 +1,25 @@
+{% extends 'page.html.twig' %}
+
+{% block body %}
+
+    <div class="container-fluid">
+
+        <div class="row">
+
+            <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded">
+
+                {% include 'sidebar.html.twig' %}
+
+            </nav>
+
+            <main class="col-sm-9 col-md-10 pt-3">
+
+                {% block main %}{% endblock %}
+
+            </main>
+
+        </div>
+
+    </div>
+
+{% endblock %}
