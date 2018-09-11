@@ -5,8 +5,9 @@ COPY --from=nginx:mainline-alpine / /
 RUN apk add --no-cache curl
 
 LABEL traefik.enable=true
-LABEL traefik.backend=eve-assets
-LABEL traefik.frontend.rule=Host:eve-assets.robbast.nl
+LABEL traefik.docker.network=traefik
+LABEL traefik.backend=eve
+LABEL traefik.frontend.rule=Host:eve.robbast.nl
 LABEL traefik.port=8000
 
 WORKDIR /srv
