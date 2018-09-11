@@ -86,8 +86,6 @@ class AssetsController
         $data = json_decode($json, true);
         $names = array_column($data, null, 'id');
 
-        dump($names);
-
         $tree = $this->asTree($assets);
 
         $response = new Response($this->engine->render('pilot/assets.html.twig', [
