@@ -2761,16 +2761,16 @@
         },
         {
             "name": "symfony/monolog-bridge",
-            "version": "v4.1.4",
+            "version": "v4.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/monolog-bridge.git",
-                "reference": "d8b57ea6afaa30888dc74936b2d414abdfee30d0"
+                "reference": "858737f5ec0266ed37b6b687020283b6e78ae220"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/monolog-bridge/zipball/d8b57ea6afaa30888dc74936b2d414abdfee30d0",
-                "reference": "d8b57ea6afaa30888dc74936b2d414abdfee30d0",
+                "url": "https://api.github.com/repos/symfony/monolog-bridge/zipball/858737f5ec0266ed37b6b687020283b6e78ae220",
+                "reference": "858737f5ec0266ed37b6b687020283b6e78ae220",
                 "shasum": ""
             },
             "require": {
@@ -2779,6 +2779,7 @@
                 "symfony/http-kernel": "~3.4|~4.0"
             },
             "conflict": {
+                "symfony/console": "<3.4",
                 "symfony/http-foundation": "<3.4"
             },
             "require-dev": {
@@ -2788,7 +2789,7 @@
                 "symfony/var-dumper": "~3.4|~4.0"
             },
             "suggest": {
-                "symfony/console": "For the possibility to show log messages in console commands depending on verbosity settings. You need version ~2.3 of the console for it.",
+                "symfony/console": "For the possibility to show log messages in console commands depending on verbosity settings.",
                 "symfony/event-dispatcher": "Needed when using log messages in console commands.",
                 "symfony/http-kernel": "For using the debugging handlers together with the response life cycle of the HTTP kernel.",
                 "symfony/var-dumper": "For using the debugging handlers like the console handler or the log server handler."
@@ -2823,7 +2824,7 @@
             ],
             "description": "Symfony Monolog Bridge",
             "homepage": "https://symfony.com",
-            "time": "2018-07-26T09:10:45+00:00"
+            "time": "2018-09-21T12:49:42+00:00"
         },
         {
             "name": "symfony/monolog-bundle",
