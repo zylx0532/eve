@@ -60,7 +60,6 @@ class AssetsController
                     return in_array(
                         $flag,
                         [
-                            'FleetHangar',
                             'Hangar',
                             'HangarAll',
                             'ShipHangar',
