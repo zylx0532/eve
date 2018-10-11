@@ -220,6 +220,14 @@ function is_stargate(int $identifier): bool
 }
 
 /**
+ * Identifier is asset-safety.
+ */
+function is_asset_safety(int $identifier): bool
+{
+    return $identifier === 2004;
+}
+
+/**
  * Merge arrays recursively.
  *
  * Overwrites non-array values instead of converting them to an array like `array_merge_recursive` does.
