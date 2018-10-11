@@ -167,6 +167,15 @@ function is_wspace_system(int $identifier): bool
 }
 
 /**
+ * Identifier is an abyssal space system.
+ */
+function is_abyssal_system(int $identifier): bool
+{
+    return $identifier > 32000000
+        && $identifier < 33000000;
+}
+
+/**
  * Identifier is a drifter w-space system.
  */
 function is_drifter_system(int $identifier): bool
