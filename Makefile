@@ -41,23 +41,33 @@ help:
 #  https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
 #
 
+runtime-dependencies := traefik-network vendor/composer/installed.json $(shell find docker/services -name Dockerfile | sed 's/Dockerfile/.build/')
+
+.PHONY: traefik-network
+traefik-network:
+	-docker network create traefik_webgateway
+
 .PHONY: fg
-fg: vendor/composer/installed.json
+fg: $(runtime-dependencies)
 fg: ## Launch the docker-compose setup (foreground)
 	docker-compose up --remove-orphans --abort-on-container-exit
 
 .PHONY: up
-up: vendor/composer/installed.json
+up: $(runtime-dependencies)
 up: ## Launch the docker-compose setup (background)
 	docker-compose up --remove-orphans --detach
 
 .PHONY: down
 down: ## Terminate the docker-compose setup
-	docker-compose down --remove-orphans
+	-docker-compose down --remove-orphans
 
 #
 # PATH BASED TARGETS
 #
+
+docker/services/%/.build: $$(shell find $$(@D) -type f -not -name .build)
+	docker-compose build $*
+	@touch $@
 
 vendor:
 	mkdir vendor

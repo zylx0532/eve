@@ -1,3 +1,4 @@
+/docker/services/**/.build
 /var/*
 !/var/.gitkeep
 /vendor/
