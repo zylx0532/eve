@@ -32,10 +32,6 @@ before_install:
 script:
   - make containers
 
-# only upload code coverage reports for successful builds
-after_success:
-  - bash <(curl -s https://codecov.io/bash) -f clover.xml
-
 # does not run for pull requests by default
 deploy:
   provider: script
