@@ -41,25 +41,66 @@ help:
 #  https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
 #
 
-runtime-dependencies := traefik-network vendor/composer/installed.json $(shell find docker/services -name Dockerfile | sed 's/Dockerfile/.build/')
+# Target that makes sure containers are built
+CONTAINERS = $(shell find docker/services -name Dockerfile | sed 's/Dockerfile/.build/')
+
+# Runtime dependencies
+RUNTIME-DEPENDENCIES = traefik-network vendor/composer/installed.json $(CONTAINERS)
+
+# Passed from ENV by travis-ci, but if not available use HEAD (currently checked out commit)
+TRAVIS_COMMIT ?= $(shell git rev-parse HEAD)
+
+# Take the short hash as release version
+RELEASE = $(shell git rev-parse --short $(TRAVIS_COMMIT))
+
+# Docker permissions
+DOCKER_UID = $(shell id -u)
+DOCKER_GID = $(shell id -g)
+DOCKER_USER = $(DOCKER_UID):$(DOCKER_GID)
+
+export DOCKER_UID
+export DOCKER_GID
 
 .PHONY: traefik-network
 traefik-network:
 	-docker network create traefik_webgateway
 
+.PHONY: containers
+containers: $(CONTAINERS)
+containers: ## build all containers
+	@touch $(CONTAINERS)
+
 .PHONY: fg
-fg: $(runtime-dependencies)
-fg: ## Launch the docker-compose setup (foreground)
+fg: $(RUNTIME-DEPENDENCIES)
+fg: ## launch the docker-compose setup (foreground)
 	docker-compose up --remove-orphans --abort-on-container-exit
 
 .PHONY: up
-up: $(runtime-dependencies)
-up: ## Launch the docker-compose setup (background)
+up: $(RUNTIME-DEPENDENCIES)
+up: ## launch the docker-compose setup (background)
 	docker-compose up --remove-orphans --detach
 
 .PHONY: down
-down: ## Terminate the docker-compose setup
+down: ## terminate the docker-compose setup
 	-docker-compose down --remove-orphans
+
+.PHONY: logs
+logs: $(RUNTIME-DEPENDENCIES)
+logs: ## show logs
+	docker-compose logs
+
+.PHONY: tail
+tail: $(RUNTIME-DEPENDENCIES)
+tail: ## tail logs
+	docker-compose logs -f
+
+.PHONY: shell
+shell: export APP_ENV := dev
+shell: export COMPOSER_HOME := /tmp
+shell: $(RUNTIME-DEPENDENCIES)
+shell: ## spawn a shell inside a php-fpm container
+	docker-compose run --rm -e APP_ENV -e COMPOSER_HOME --user $(DOCKER_USER) --name pastebin-shell php-fpm \
+		sh
 
 #
 # PATH BASED TARGETS
@@ -69,14 +110,22 @@ docker/services/%/.build: $$(shell find $$(@D) -type f -not -name .build)
 	docker-compose build $*
 	@touch $@
 
-vendor:
-	mkdir vendor
+var/cache:
+	mkdir -p $@
 
-vendor/composer/installed.json: composer.json composer.lock vendor
-	docker run --rm -u $(shell id -u):$(shell id -g) \
+var/log:
+	mkdir -p $@
+
+vendor:
+	mkdir -p $@
+
+vendor/composer/installed.json: export APP_ENV := dev
+vendor/composer/installed.json: export COMPOSER_HOME := /tmp
+vendor/composer/installed.json: composer.json composer.lock vendor var/cache var/log $(CONTAINERS)
+	docker-compose run --rm --no-deps -e APP_ENV -e COMPOSER_HOME \
+		--user $(DOCKER_USER) \
 		--volume /etc/passwd:/etc/passwd:ro \
 		--volume /etc/group:/etc/group:ro \
-		--volume "$(shell pwd)":/workdir \
-		--workdir /workdir \
-		composer install
+		--name pastebin-composer \
+		php-fpm composer install --no-interaction --no-progress --no-suggest --prefer-dist
 	@touch $@
