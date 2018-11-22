@@ -475,16 +475,16 @@
         },
         {
             "name": "league/oauth2-client",
-            "version": "2.3.1",
+            "version": "2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/oauth2-client.git",
-                "reference": "4dfceb5b25fe89dba7034de75bb097dfb2ec4b46"
+                "reference": "88f8381dfdf0dafe59f6694ca914a788918204ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/oauth2-client/zipball/4dfceb5b25fe89dba7034de75bb097dfb2ec4b46",
-                "reference": "4dfceb5b25fe89dba7034de75bb097dfb2ec4b46",
+                "url": "https://api.github.com/repos/thephpleague/oauth2-client/zipball/88f8381dfdf0dafe59f6694ca914a788918204ca",
+                "reference": "88f8381dfdf0dafe59f6694ca914a788918204ca",
                 "shasum": ""
             },
             "require": {
@@ -538,7 +538,7 @@
                 "oauth2",
                 "single sign on"
             ],
-            "time": "2018-11-19T23:15:14+00:00"
+            "time": "2018-11-21T20:26:42+00:00"
         },
         {
             "name": "monolog/monolog",
