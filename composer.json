@@ -57,7 +57,7 @@
   },
   "config": {
     "platform": {
-      "php": "7.2.6",
+      "php": "7.3",
       "ext-pcntl": "1.0"
     },
     "sort-packages": true
