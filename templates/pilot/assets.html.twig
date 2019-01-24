@@ -7,7 +7,7 @@
     <div class="input-group-prepend">
         <div class="input-group-text"><i class="fas fa-search"></i></div>
     </div>
-    <input type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Search">
+    <input type="text" class="form-control" id="search" placeholder="Search">
 </div>
 
 <ul class="tree mt-4">
@@ -25,7 +25,7 @@
 
             (function ($) {
 
-                $('#filter').keyup(function () {
+                $('#search').keyup(function () {
 
                     var rex = new RegExp($(this).val(), 'i');
                     var rows = $('.tree li');
