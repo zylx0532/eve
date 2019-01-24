@@ -7,6 +7,7 @@ services:
       context: .
       dockerfile: docker/services/php-fpm/Dockerfile
     container_name: eve-assets-fpm
+    user: $DOCKER_UID:$DOCKER_GID
     environment:
       - APP_ENV=dev
       - APP_DEBUG=1
@@ -30,19 +31,19 @@ services:
     container_name: eve-assets-nginx
     labels:
       traefik.enable: true
-      traefik.docker.network: traefik_webgateway
-      traefik.backend: eveassets
+      traefik.docker.network: traefik
+      traefik.backend: eve-assets-nginx
       traefik.frontend.rule: "Host:eveassets.localhost"
       traefik.port: 8000
     depends_on:
       - php-fpm
     networks:
-      - traefik_webgateway
+      - traefik
       - default
 
 networks:
 
   default:
 
-  traefik_webgateway:
+  traefik:
     external: true

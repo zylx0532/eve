@@ -53,6 +53,8 @@ TRAVIS_COMMIT ?= $(shell git rev-parse HEAD)
 # Take the short hash as release version
 RELEASE = $(shell git rev-parse --short $(TRAVIS_COMMIT))
 
+PROJECT := eve
+
 # Docker permissions
 DOCKER_UID = $(shell id -u)
 DOCKER_GID = $(shell id -g)
@@ -63,7 +65,7 @@ export DOCKER_GID
 
 .PHONY: traefik-network
 traefik-network:
-	-docker network create traefik_webgateway
+	-docker network create traefik
 
 .PHONY: containers
 containers: $(CONTAINERS)
@@ -73,34 +75,33 @@ containers: ## build all containers
 .PHONY: fg
 fg: $(RUNTIME-DEPENDENCIES)
 fg: ## launch the docker-compose setup (foreground)
-	docker-compose up --remove-orphans --abort-on-container-exit
+	docker-compose --project-name $(PROJECT) up --remove-orphans --abort-on-container-exit
 
 .PHONY: up
 up: $(RUNTIME-DEPENDENCIES)
 up: ## launch the docker-compose setup (background)
-	docker-compose up --remove-orphans --detach
+	docker-compose --project-name $(PROJECT) up --remove-orphans --detach
 
 .PHONY: down
 down: ## terminate the docker-compose setup
-	-docker-compose down --remove-orphans
+	-docker-compose --project-name $(PROJECT) down --remove-orphans
 
 .PHONY: logs
 logs: $(RUNTIME-DEPENDENCIES)
 logs: ## show logs
-	docker-compose logs
+	docker-compose --project-name $(PROJECT) logs
 
 .PHONY: tail
 tail: $(RUNTIME-DEPENDENCIES)
 tail: ## tail logs
-	docker-compose logs -f
+	docker-compose --project-name $(PROJECT) logs -f
 
 .PHONY: shell
 shell: export APP_ENV := dev
 shell: export COMPOSER_HOME := /tmp
 shell: $(RUNTIME-DEPENDENCIES)
 shell: ## spawn a shell inside a php-fpm container
-	docker-compose run --rm -e APP_ENV -e COMPOSER_HOME --user $(DOCKER_USER) --name pastebin-shell php-fpm \
-		sh
+	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV -e COMPOSER_HOME --user $(DOCKER_USER) --name pastebin-shell php-fpm sh
 
 #
 # PATH BASED TARGETS
@@ -122,10 +123,15 @@ vendor:
 vendor/composer/installed.json: export APP_ENV := dev
 vendor/composer/installed.json: export COMPOSER_HOME := /tmp
 vendor/composer/installed.json: composer.json composer.lock vendor var/cache var/log $(CONTAINERS)
-	docker-compose run --rm --no-deps -e APP_ENV -e COMPOSER_HOME \
+	docker run --rm \
+		--interactive \
+		--env APP_ENV \
+		--env COMPOSER_HOME \
 		--user $(DOCKER_USER) \
 		--volume /etc/passwd:/etc/passwd:ro \
 		--volume /etc/group:/etc/group:ro \
+		--volume $(shell pwd):/app \
+		--workdir /app \
 		--name pastebin-composer \
-		php-fpm composer install --no-interaction --no-progress --no-suggest --prefer-dist
+		composer install --no-interaction --no-progress --no-suggest --prefer-dist
 	@touch $@
