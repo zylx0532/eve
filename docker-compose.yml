@@ -5,7 +5,7 @@ services:
   php-fpm:
     build:
       context: .
-      dockerfile: docker/services/php-fpm/Dockerfile
+      dockerfile: docker/php-fpm/Dockerfile
     container_name: eve-assets-fpm
     user: $DOCKER_UID:$DOCKER_GID
     environment:
@@ -27,7 +27,7 @@ services:
   nginx:
     build:
       context: .
-      dockerfile: docker/services/nginx/Dockerfile
+      dockerfile: docker/nginx/Dockerfile
     container_name: eve-assets-nginx
     labels:
       traefik.enable: true

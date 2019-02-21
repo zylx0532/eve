@@ -41,8 +41,10 @@ help:
 #  https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
 #
 
+PROJECT := eve
+
 # Target that makes sure containers are built
-CONTAINERS = $(shell find docker/services -name Dockerfile | sed 's/Dockerfile/.build/')
+CONTAINERS = $(shell find docker -name Dockerfile | sed 's/Dockerfile/.build/')
 
 # Runtime dependencies
 RUNTIME-DEPENDENCIES = traefik-network vendor/composer/installed.json $(CONTAINERS)
@@ -52,8 +54,6 @@ TRAVIS_COMMIT ?= $(shell git rev-parse HEAD)
 
 # Take the short hash as release version
 RELEASE = $(shell git rev-parse --short $(TRAVIS_COMMIT))
-
-PROJECT := eve
 
 # Docker permissions
 DOCKER_UID = $(shell id -u)
@@ -107,7 +107,7 @@ shell: ## spawn a shell inside a php-fpm container
 # PATH BASED TARGETS
 #
 
-docker/services/%/.build: $$(shell find $$(@D) -type f -not -name .build)
+docker/%/.build: $$(shell find $$(@D) -type f -not -name .build)
 	docker-compose build $*
 	@touch $@
 
