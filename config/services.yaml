@@ -23,42 +23,42 @@ services:
     # fetching services directly from the container via $container->get() won't work.
     # The best practice is to be explicit about your dependencies anyway.
 
-    App\:
-      resource: '../src/App/*'
-      exclude: '../src/App/{Controller,Entity,Kernel.php,functions.php}'
+  App\:
+    resource: '../src/App/*'
+    exclude: '../src/App/{Controller,Entity,Kernel.php,functions.php}'
 
-    # controllers are imported separately to make sure services can be injected
-    # as action arguments even if you don't extend any base controller class
-    App\Controller\:
-      resource: '../src/App/Controller'
-      tags: ['controller.service_arguments']
+  # controllers are imported separately to make sure services can be injected
+  # as action arguments even if you don't extend any base controller class
+  App\Controller\:
+    resource: '../src/App/Controller'
+    tags: ['controller.service_arguments']
 
-    App\Controller\Security\LoginController:
-      arguments:
-        $scopes: '%eve_scopes%'
-      tags: ['controller.service_arguments']
+  App\Controller\Security\LoginController:
+    arguments:
+      $scopes: '%eve_scopes%'
+    tags: ['controller.service_arguments']
 
-    App\Controller\Skills\TrainedController:
-      arguments:
-        $httpClient: '@httplug.client.async'
-      tags: ['controller.service_arguments']
+  App\Controller\Skills\TrainedController:
+    arguments:
+      $httpClient: '@httplug.client.async'
+    tags: ['controller.service_arguments']
 
-    Predis\Client:
-      arguments:
-      - scheme: '%redis.scheme%'
-        host: '%redis.host%'
-        port: '%redis.port%'
+  Predis\Client:
+    arguments:
+    - scheme: '%redis.scheme%'
+      host: '%redis.host%'
+      port: '%redis.port%'
 
-    Predis\ClientInterface: '@Predis\Client'
+  Predis\ClientInterface: '@Predis\Client'
 
-    Doctrine\Common\Cache\PredisCache: ~
+  Doctrine\Common\Cache\PredisCache: ~
 
-    Doctrine\Common\Cache\Cache: '@Doctrine\Common\Cache\PredisCache'
+  Doctrine\Common\Cache\Cache: '@Doctrine\Common\Cache\PredisCache'
 
-    Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface: '@security.token_storage'
+  Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface: '@security.token_storage'
 
-    Alcohol\OAuth2\Client\Provider\EveOnline:
-      arguments:
-      - clientId: '%env(EVE_CLIENT_ID)%'
-        clientSecret: '%env(EVE_CLIENT_SECRET)%'
-        redirectUri: '%env(EVE_CALLBACK_URL)%'
+  Alcohol\OAuth2\Client\Provider\EveOnline:
+    arguments:
+    - clientId: '%env(EVE_CLIENT_ID)%'
+      clientSecret: '%env(EVE_CLIENT_SECRET)%'
+      redirectUri: '%env(EVE_CALLBACK_URL)%'
