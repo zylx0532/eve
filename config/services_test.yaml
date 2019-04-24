@@ -1,5 +1,4 @@
 parameters:
-  paste.ttl: 300
 
 services:
   _defaults:
