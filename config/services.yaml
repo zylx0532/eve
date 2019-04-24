@@ -1,53 +1,53 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    paste.ttl: 2592000
-    redis.scheme: 'tcp'
-    redis.host: 'redis'
-    redis.port: 6379
-    eve_scopes:
-        - 'esi-assets.read_assets.v1'
-        - 'esi-location.read_location.v1'
-        - 'esi-location.read_ship_type.v1'
-        - 'esi-skills.read_skills.v1'
-        - 'esi-skills.read_skillqueue.v1'
-        - 'esi-universe.read_structures.v1'
-        - 'esi-wallet.read_character_wallet.v1'
+  paste.ttl: 2592000
+  redis.scheme: 'tcp'
+  redis.host: 'redis'
+  redis.port: 6379
+  eve_scopes:
+  - 'esi-assets.read_assets.v1'
+  - 'esi-location.read_location.v1'
+  - 'esi-location.read_ship_type.v1'
+  - 'esi-skills.read_skills.v1'
+  - 'esi-skills.read_skillqueue.v1'
+  - 'esi-universe.read_structures.v1'
+  - 'esi-wallet.read_character_wallet.v1'
 
 services:
-    # default configuration for services in *this* file
-    _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-        public: false       # Allows optimizing the container by removing unused services; this also means
-        # fetching services directly from the container via $container->get() won't work.
-        # The best practice is to be explicit about your dependencies anyway.
+  # default configuration for services in *this* file
+  _defaults:
+    autowire: true      # Automatically injects dependencies in your services.
+    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+    public: false       # Allows optimizing the container by removing unused services; this also means
+    # fetching services directly from the container via $container->get() won't work.
+    # The best practice is to be explicit about your dependencies anyway.
 
     App\:
-        resource: '../src/App/*'
-        exclude: '../src/App/{Controller,Entity,Kernel.php,functions.php}'
+      resource: '../src/App/*'
+      exclude: '../src/App/{Controller,Entity,Kernel.php,functions.php}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
     App\Controller\:
-        resource: '../src/App/Controller'
-        tags: ['controller.service_arguments']
+      resource: '../src/App/Controller'
+      tags: ['controller.service_arguments']
 
     App\Controller\Security\LoginController:
-        arguments:
-            $scopes: '%eve_scopes%'
-        tags: ['controller.service_arguments']
+      arguments:
+        $scopes: '%eve_scopes%'
+      tags: ['controller.service_arguments']
 
     App\Controller\Skills\TrainedController:
-        arguments:
-            $httpClient: '@httplug.client.async'
-        tags: ['controller.service_arguments']
+      arguments:
+        $httpClient: '@httplug.client.async'
+      tags: ['controller.service_arguments']
 
     Predis\Client:
-        arguments:
-            - scheme: '%redis.scheme%'
-              host: '%redis.host%'
-              port: '%redis.port%'
+      arguments:
+      - scheme: '%redis.scheme%'
+        host: '%redis.host%'
+        port: '%redis.port%'
 
     Predis\ClientInterface: '@Predis\Client'
 
@@ -58,7 +58,7 @@ services:
     Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface: '@security.token_storage'
 
     Alcohol\OAuth2\Client\Provider\EveOnline:
-        arguments:
-            - clientId: '%env(EVE_CLIENT_ID)%'
-              clientSecret: '%env(EVE_CLIENT_SECRET)%'
-              redirectUri: '%env(EVE_CALLBACK_URL)%'
+      arguments:
+      - clientId: '%env(EVE_CLIENT_ID)%'
+        clientSecret: '%env(EVE_CLIENT_SECRET)%'
+        redirectUri: '%env(EVE_CALLBACK_URL)%'

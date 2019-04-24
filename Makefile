@@ -47,7 +47,7 @@ PROJECT := eve
 CONTAINERS = $(shell find docker -name Dockerfile | sed 's/Dockerfile/.build/')
 
 # Runtime dependencies
-RUNTIME-DEPENDENCIES = traefik-network vendor/composer/installed.json $(CONTAINERS)
+RUNTIME-DEPENDENCIES = traefik vendor/composer/installed.json $(CONTAINERS)
 
 # Passed from ENV by travis-ci, but if not available use HEAD (currently checked out commit)
 TRAVIS_COMMIT ?= $(shell git rev-parse HEAD)
@@ -66,6 +66,31 @@ export DOCKER_GID
 .PHONY: traefik-network
 traefik-network:
 	-docker network create traefik
+
+.PHONY: traefik
+traefik: traefik-network
+traefik: ## run traefik
+	@docker inspect -f {{.State.Running}} traefik &>/dev/null || docker run \
+		--restart unless-stopped \
+		--name traefik \
+		--network traefik \
+		--volume /var/run/docker.sock:/var/run/docker.sock \
+		--publish 80:80 \
+		--expose 8080 \
+		--label traefik.port=8080 \
+		--label traefik.enable=true \
+		--detach \
+		traefik --api --accesslog --docker --docker.domain=localhost --docker.exposedbydefault=false
+
+.PHONY: traefik-cleanup
+traefik-cleanup: ## clean up traefik
+	@docker stop traefik &>/dev/null
+	@docker rm traefik &>/dev/null
+	@-docker network rm traefik &>/dev/null
+
+.PHONY: traefik-restart
+traefik-restart: traefik-cleanup traefik
+traefik-restart: ## restart traefik
 
 .PHONY: containers
 containers: $(CONTAINERS)

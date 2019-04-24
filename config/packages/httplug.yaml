@@ -1,37 +1,37 @@
 httplug:
-    plugins:
-        redirect:
-            preserve_header: true
-        cache:
-            config:
-                default_ttl: 300
-            cache_pool: 'cache.app'
+  plugins:
+    redirect:
+      preserve_header: true
+    cache:
+      config:
+        default_ttl: 300
+      cache_pool: 'cache.app'
 
-    discovery:
-        client: 'auto'
+  discovery:
+    client: 'auto'
 
-    clients:
-        default:
-            factory: 'httplug.factory.curl'
-            plugins:
-                - 'httplug.plugin.logger'
-                - 'httplug.plugin.error'
-                - 'httplug.plugin.cache'
-                - add_host:
-                      host: '%env(EVE_ESI_URI)%'
-                      replace: true
-                - header_set:
-                      headers:
-                          'X-User-Agent': 'Eve-Assets-Dashboard (sync)'
-        async:
-            factory: 'httplug.factory.curl'
-            plugins:
-                - 'httplug.plugin.logger'
-                - 'httplug.plugin.error'
-                - 'httplug.plugin.cache'
-                - add_host:
-                      host: '%env(EVE_ESI_URI)%'
-                      replace: true
-                - header_set:
-                      headers:
-                          'X-User-Agent': 'Eve-Assets-Dashboard (async)'
+  clients:
+    default:
+      factory: 'httplug.factory.curl'
+      plugins:
+      - 'httplug.plugin.logger'
+      - 'httplug.plugin.error'
+      - 'httplug.plugin.cache'
+      - add_host:
+          host: '%env(EVE_ESI_URI)%'
+          replace: true
+      - header_set:
+          headers:
+            'X-User-Agent': 'Eve-Assets-Dashboard (sync)'
+    async:
+        factory: 'httplug.factory.curl'
+        plugins:
+        - 'httplug.plugin.logger'
+        - 'httplug.plugin.error'
+        - 'httplug.plugin.cache'
+        - add_host:
+            host: '%env(EVE_ESI_URI)%'
+            replace: true
+        - header_set:
+            headers:
+              'X-User-Agent': 'Eve-Assets-Dashboard (async)'

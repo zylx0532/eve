@@ -1,9 +1,9 @@
 sentry:
-    dsn: '%env(SENTRY_DSN)%'
-    options:
-        environment: '%env(SENTRY_ENVIRONMENT)%'
-        release: '%env(SENTRY_RELEASE)%'
-        curl_method: async
+  dsn: '%env(SENTRY_DSN)%'
+  options:
+    environment: '%env(SENTRY_ENVIRONMENT)%'
+    release: '%env(SENTRY_RELEASE)%'
+    curl_method: async
 
 #  skip_capture:  # To skip certain exceptions, specify a list below
 #    - 'Symfony\Component\HttpKernel\Exception\NotFoundHttpException'
