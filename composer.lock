@@ -2833,7 +2833,7 @@
         },
         {
             "name": "symfony/inflector",
-            "version": "v4.2.7",
+            "version": "v4.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/inflector.git",
@@ -3341,7 +3341,7 @@
         },
         {
             "name": "symfony/property-access",
-            "version": "v4.2.7",
+            "version": "v4.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/property-access.git",
