@@ -12,13 +12,11 @@
 <strong>Capsuleer</strong>
 
 <p>
-    {{ character_details.name }}
-
-    ({% if character_details.gender == 'male' %}
-    <i class="fa fa-mars" aria-hidden="true"></i>
-{%  else %}
-    <i class="fa fa-venus" aria-hidden="true"></i>
-    {%  endif %})
+    {{ character_details.name }} ( {% if character_details.gender == 'male' -%}
+    <i class="fas fa-mars" aria-hidden="true"></i>
+    {%- else -%}
+    <i class="fas fa-venus" aria-hidden="true"></i>
+    {%-  endif %} )
 </p>
 
 <strong>Born</strong>

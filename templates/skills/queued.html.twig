@@ -55,18 +55,18 @@
             <td>{% if skill.start_date is defined %}{{ skill.start_date|date("m/d H:i") }}{% else %}-{% endif %}</td>
             <td>{% if skill.start_date is defined %}{{ skill.finish_date|date("m/d H:i") }}{% else %}-{% endif %}</td>
             <td>
-                {% if finished %}
+                {%- if finished -%}
                     -
-                {% elseif skill.finish_date is not defined %}
+                {%- elseif skill.finish_date is not defined -%}
                     -
-                {% else %}
+                {%- else -%}
                 {% set diff = date(skill.finish_date).diff(date(skill.start_date)) %}
                 {% if diff.m > 0 %}> {{ diff.m }} month{% else %}
-                    {% if diff.d > 0 %}{{ diff.d }}d{% endif %}
-                    {% if diff.h > 0 %}{{ diff.h }}h{% endif %}
-                    {% if diff.i > 0 %}{{ diff.i }}m{% endif %}
-                {% endif %}
-                {% endif %}
+                    {%- if diff.d > 0 -%}{{ diff.d }}d {% endif -%}
+                    {%- if diff.h > 0 -%}{{ diff.h }}h {% endif -%}
+                    {%- if diff.i > 0 -%}{{ diff.i }}m {% endif -%}
+                {%- endif %}
+                {%- endif %}
             </td>
         </tr>
         {% endfor %}
